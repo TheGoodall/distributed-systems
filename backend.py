@@ -11,3 +11,14 @@ class backend(object):
         self.orders.append(order)
         success = True
         return success
+    def get_orders(self):
+        return self.orders
+
+
+daemon = Pyro4.Daemon()
+uri = daemon.register(backend)
+
+ns= Pyro4.locateNS()
+ns.register("1.backend", uri)
+daemon.requestLoop()
+
